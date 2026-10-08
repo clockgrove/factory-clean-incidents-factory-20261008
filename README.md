@@ -35,3 +35,21 @@ The same dedicated tool prefix also provides this actual browser/HTTP prerequisi
 qualification-browser-smoke
 
 It starts and closes a tiny real loopback HTTP page and sandbox-enabled Chromium, records actual process identities/launch argv and closure under ignored `.runtime/`, and reports the receipt path. It verifies the installed browser environment; it never supplies the application's behavior, design, API or passing acceptance.
+
+## Run the explorer
+
+With Node.js 24, run `npm run pretest` to prepare the canonical dataset and pinned tooling, then `npm run start`. Open **http://127.0.0.1:3000**. The application binds only to loopback. Stop it with Ctrl+C; no external services are used.
+
+Search is literal and case-insensitive. Checked values within a filter are alternatives; different filters apply together. Dates include both UTC calendar endpoints. Severity sorting uses critical, high, medium, low; ties use incident ID. The daily chart and three counts cover the entire matching result. Open an incident to see all fields, then return to the same results. Named views live in this browser's local storage. Saving an existing name replaces it. Export contains all matching records in the selected sort; CSV tags are JSON arrays, null resolved dates are empty cells, and all cells are quoted with doubled embedded quotes.
+
+## Verify the application
+
+Run this ordered sequence from the checkout:
+
+```sh
+npm run pretest
+qualification-browser-smoke
+npm test
+```
+
+`npm test` retains its own pretest prerequisite. The discovered tests check real HTTP filtering, inclusive dates, stable sorting, pagination, complete summaries, details and parsed CSV against the canonical dataset. Sandboxed Chromium checks saved views, keyboard focus, narrow layout, loading, empty results, connection failures and retry, overlapping query/detail requests and repeated pagination. A loopback forwarding server delays genuine backend responses or closes connections to exercise pending and failed requests without mocking responses. All test servers and the browser close in finally blocks. Browser smoke receipts and the browser test's mobile screenshot are retained under ignored `.runtime/`. The supplied browser alias must be on PATH; browser and library paths are resolved relative to it as described above.
